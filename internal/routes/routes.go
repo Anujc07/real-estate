@@ -9,7 +9,7 @@ import (
 
 func SetupRoutes(router *gin.Engine) {
 
-    // User properties routea
+    // User properties routes
     propertyRepo := repository.NewPropertyRepository(config.DB)
     propertyService := service.NewPropertyService(propertyRepo)
     propertyHandler := handler.NewPropertyHandler(propertyService)
@@ -51,5 +51,17 @@ func SetupRoutes(router *gin.Engine) {
     {
         review.POST("/", reviewHandler.Create)
         review.GET("/property/:id", reviewHandler.GetByProperty)
+    }
+
+    // User wishlist routes
+    wishlistRepo := repository.NewWishlistRepository(config.DB)
+    wishlistService := service.NewWishlistService(wishlistRepo)
+    wishlistHandler := handler.NewWishlistHandler(wishlistService)
+
+    wishlist := router.Group("/wishlist")
+    {
+        wishlist.POST("/", wishlistHandler.Add)
+        wishlist.DELETE("/:user_id/:property_id", wishlistHandler.Remove)
+        wishlist.GET("/:user_id", wishlistHandler.Get)
     }
 }
