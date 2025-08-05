@@ -22,3 +22,15 @@ func (r *UserRepository) FindByEmail(email string) (*models.User, error) {
     result := r.DB.Where("email = ?", email).First(&user)
     return &user, result.Error
 }
+
+func (r *UserRepository) DeactivateUserByID(id uint) error {
+    return r.DB.Model(&models.User{}).
+        Where("id = ?", id).
+        Update("is_active", false).Error
+}
+
+func (r *UserRepository) ActivateUserByID(id uint) error {
+    return r.DB.Model(&models.User{}).
+        Where("id = ?", id).
+        Update("is_active", true).Error
+}

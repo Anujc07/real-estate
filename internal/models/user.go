@@ -2,7 +2,6 @@ package models
 
 import (
 	"time"
-	// "gorm.io/gorm"
 )
 
 type User struct {
@@ -12,5 +11,7 @@ type User struct {
     Password string
     Role     string `gorm:"default:'customer'"` // New: admin, agent, customer
     CreatedAt time.Time
+    UpdatedAt time.Time
+    IsActive  bool   `gorm:"default:true"` // New: to track if user is active
 }
 
