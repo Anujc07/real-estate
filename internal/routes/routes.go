@@ -64,4 +64,15 @@ func SetupRoutes(router *gin.Engine) {
         wishlist.DELETE("/:user_id/:property_id", wishlistHandler.Remove)
         wishlist.GET("/:user_id", wishlistHandler.Get)
     }
+
+    // Visit property routes
+    visitPropertyRepo := repository.NewVisitPropertyRepository(config.DB)
+    visitPropertyService := service.NewVisitPropertyService(visitPropertyRepo)
+    visitPropertyHandler := handler.NewVisitPropertyHandler(visitPropertyService)
+    
+    visitProperty := router.Group("/visit-property")
+    {
+        visitProperty.POST("/:user_id/:property_id", visitPropertyHandler.CreateVisit)
+    }
+
 }
